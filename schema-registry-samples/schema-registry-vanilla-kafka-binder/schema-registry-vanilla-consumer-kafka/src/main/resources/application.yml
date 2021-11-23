@@ -3,7 +3,7 @@ spring:
     stream:
       bindings:
         process-in-0:
-          destination: sensor-topic
+          destination: my-random-topic2
       schema-registry-client:
         endpoint: http://localhost:8990
       schema:

@@ -3,8 +3,8 @@ spring:
     stream:
       bindings:
         supplier-out-0:
-          contentType: application/*+avro
-          destination: sensor-topic
+          contentType: application/json+avro
+          destination: my-random-topic2
       schema-registry-client:
         endpoint: http://localhost:8990
       schema:
