@@ -1,6 +1,21 @@
 spring:
   cloud:
+    azure:
+      namespace: james-event-hub-poc.servicebus.windows.net
+      schema-group: kafka-sr-poc
     stream:
+      kafka:
+        binder:
+          min-partition-count: 2
+          replicationFactor: 2
+          brokers: james-event-hub-poc.servicebus.windows.net:9093
+          configuration:
+            sasl:
+              jaas:
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://james-event-hub-poc.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=WNosDGCjXOLmB0kRExgj49c3OrC5YnqvBwzIf3TnQ5I=";
+              mechanism: PLAIN
+            security:
+              protocol: SASL_SSL
       bindings:
         process-in-0:
           destination: my-random-topic2

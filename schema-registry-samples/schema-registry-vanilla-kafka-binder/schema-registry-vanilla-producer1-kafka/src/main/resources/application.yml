@@ -1,13 +1,35 @@
 spring:
   cloud:
+    azure:
+      namespace: james-event-hub-poc.servicebus.windows.net
+      schema-group: kafka-sr-poc
     stream:
+      kafka:
+        binder:
+          min-partition-count: 2
+          replicationFactor: 2
+          brokers: james-event-hub-poc.servicebus.windows.net:9093
+          configuration:
+            sasl:
+              jaas:
+                config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://james-event-hub-poc.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=WNosDGCjXOLmB0kRExgj49c3OrC5YnqvBwzIf3TnQ5I=";
+              mechanism: PLAIN
+            security:
+              protocol: SASL_SSL
       bindings:
         supplier-out-0:
           contentType: application/json+avro
           destination: my-random-topic2
-      schema-registry-client:
-        endpoint: http://localhost:8990
+#      schema-registry-client:
+#        endpoint: http://localhost:8990
       schema:
         avro:
           schema-locations: classpath:avro/sensor.avsc
 server.port: 9009
+
+azure:
+  tenant:
+    id: 2c5e6f41-b09f-4f24-91f0-8695bfd72710
+  client:
+    id: 040a473b-2f09-4550-b24e-2a381e72aebb
+    secret: ego7Q~6JsXlmTbMRuEEhzkqSfaqaE3GXnwwnQ
