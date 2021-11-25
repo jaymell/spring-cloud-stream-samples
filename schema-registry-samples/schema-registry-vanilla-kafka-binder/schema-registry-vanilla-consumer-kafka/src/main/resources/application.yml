@@ -1,21 +1,22 @@
 spring:
   cloud:
-    default:
-      producer:
-        useNativeEncoding: true
-      consumer:
-        useNativeEncoding: true
+
     azure:
       namespace: james-event-hub-poc.servicebus.windows.net
       schema-group: kafka-sr-poc
     stream:
+      default:
+        producer:
+          useNativeEncoding: true
+        consumer:
+          useNativeEncoding: true
       kafka:
         binder:
           producer-properties:
-            key.serializer: sample.consumer.AzureKafkaAvroSerializer
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
             value.serializer: sample.consumer.AzureKafkaAvroSerializer
           consumer-properties:
-            key.deserializer: sample.consumer.AzureKafkaAvroDeserializer
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
             value.deserializer: sample.consumer.AzureKafkaAvroDeserializer
             specific.avro.reader: true
           min-partition-count: 2
@@ -31,8 +32,8 @@ spring:
       bindings:
         process-in-0:
           destination: my-random-topic2
-      schema-registry-client:
-        endpoint: http://localhost:8990
+#      schema-registry-client:
+#        endpoint: http://localhost:8990
       schema:
         avro:
           schema-locations: classpath:avro/sensor.avsc

@@ -11,7 +11,7 @@ import org.springframework.cloud.schema.registry.client.EnableSchemaRegistryClie
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableSchemaRegistryClient
+//@EnableSchemaRegistryClient
 public class ConsumerApplication {
 
 	private final Log logger = LogFactory.getLog(getClass());

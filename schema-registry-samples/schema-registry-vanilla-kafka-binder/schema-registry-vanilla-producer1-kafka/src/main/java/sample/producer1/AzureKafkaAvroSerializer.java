@@ -33,6 +33,8 @@ public class AzureKafkaAvroSerializer implements Serializer<Object> {
                 //FIXME
                 .autoRegisterSchema(true)
                 .buildSerializer();
+
+        System.out.println("Initialized serializer");
     }
 
     @Override
