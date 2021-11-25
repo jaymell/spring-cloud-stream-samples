@@ -17,7 +17,9 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
 
     private final String namespace;
     private final String schemaGroup;
-    private final SchemaRegistryAsyncClient schemaRegistryAsyncClient;
+    private final SchemaRegistryAsyncClient client;
+
+//    private ConcurrentMap> azureIdTo= new ConcurrentHashMap();
 
     @Autowired
     public AzureEventHubSchemaRegistryClient(@Value("${spring.cloud.azure.namespace}") String namespace,
@@ -29,7 +31,7 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
 
         TokenCredential tokenCredential = new DefaultAzureCredentialBuilder().build();
 
-        this.schemaRegistryAsyncClient = new SchemaRegistryClientBuilder()
+        this.client = new SchemaRegistryClientBuilder()
                 .credential(tokenCredential)
                 .fullyQualifiedNamespace(namespace)
                 .buildAsyncClient();
@@ -38,12 +40,12 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
     @Override
     public SchemaRegistrationResponse register(String subject, String format, String schema) {
         System.out.printf("register was called with subject %s, format %s, schema %s!!!%n", subject, format, schema);
-        var resp = schemaRegistryAsyncClient.registerSchema(schemaGroup, subject, schema, SchemaFormat.AVRO).block();
+        var resp = client.registerSchema(schemaGroup, subject, schema, SchemaFormat.AVRO).block();
         System.out.printf("Got response from azure id %s format %s %n", resp.getId(), resp.getFormat());
         var schemaRegistrationResponse = new SchemaRegistrationResponse();
         System.out.println("WARN -- Azure ID incompatible w/ integer format -- setting default value");
         System.out.println("WARN -- Azure does not return schema version when schema is registered -- setting default value");
-        var schemaReference = new SchemaReference(subject, 1, "avro");
+        var schemaReference = new SchemaReference(subject, 100, "avro");
         schemaRegistrationResponse.setId(1);
         schemaRegistrationResponse.setSchemaReference(schemaReference);
         return schemaRegistrationResponse;
@@ -52,12 +54,14 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
     @Override
     public String fetch(SchemaReference schemaReference) {
         System.out.printf("fetch was called with schemaReference %s %n", schemaReference);
-        return null;
+        var resp = client.getSchema("6092fb18a3004b6bad94cb918a9132de").block();
+        return resp.getDefinition();
     }
 
     @Override
     public String fetch(int id) {
         System.out.printf("fetch was called with id %s %n", id);
-        return null;
+        var resp = client.getSchema("5011bf7002be47a1983e7574cf89875f").block();
+        return resp.getDefinition();
     }
 }

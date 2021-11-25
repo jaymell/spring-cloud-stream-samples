@@ -1,12 +1,12 @@
-//package sample.producer1;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.web.client.RestTemplateBuilder;
-//import org.springframework.cloud.schema.registry.SchemaReference;
-//import org.springframework.cloud.schema.registry.SchemaRegistrationResponse;
-//import org.springframework.cloud.schema.registry.client.DefaultSchemaRegistryClient;
-//import org.springframework.cloud.schema.registry.client.SchemaRegistryClient;
-//import org.springframework.stereotype.Component;
+package sample.consumer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.schema.registry.SchemaReference;
+import org.springframework.cloud.schema.registry.SchemaRegistrationResponse;
+import org.springframework.cloud.schema.registry.client.DefaultSchemaRegistryClient;
+import org.springframework.cloud.schema.registry.client.SchemaRegistryClient;
+import org.springframework.stereotype.Component;
 //
 //@Component
 //public class RegistryClientFacade implements SchemaRegistryClient {

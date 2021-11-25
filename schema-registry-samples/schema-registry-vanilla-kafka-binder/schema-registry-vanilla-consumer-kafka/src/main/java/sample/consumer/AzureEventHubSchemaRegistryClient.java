@@ -44,10 +44,12 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
     public SchemaRegistrationResponse register(String subject, String format, String schema) {
         System.out.printf("register was called with subject %s, format %s, schema %s!!!%n", subject, format, schema);
         var resp = client.registerSchema(schemaGroup, subject, schema, SchemaFormat.AVRO).block();
+        var azSchema = client.getSchema(resp.getId()).block();
         System.out.printf("Got response from azure id %s format %s %n", resp.getId(), resp.getFormat());
-        var schemaRegistrationResponse = new SchemaRegistrationResponse();
         System.out.println("WARN -- Azure ID incompatible w/ integer format -- setting default value");
         System.out.println("WARN -- Azure does not return schema version when schema is registered -- setting default value");
+
+        var schemaRegistrationResponse = new SchemaRegistrationResponse();
         var schemaReference = new SchemaReference(subject, 100, "avro");
         schemaRegistrationResponse.setId(1);
         schemaRegistrationResponse.setSchemaReference(schemaReference);
@@ -57,7 +59,7 @@ public class AzureEventHubSchemaRegistryClient implements SchemaRegistryClient {
     @Override
     public String fetch(SchemaReference schemaReference) {
         System.out.printf("fetch was called with schemaReference %s %n", schemaReference);
-        var resp = client.getSchema("5011bf7002be47a1983e7574cf89875f").block();
+        var resp = client.getSchema("6092fb18a3004b6bad94cb918a9132de").block();
         return resp.getDefinition();
     }
 
