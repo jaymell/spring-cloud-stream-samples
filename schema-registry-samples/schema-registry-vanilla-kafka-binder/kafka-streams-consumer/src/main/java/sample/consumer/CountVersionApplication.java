@@ -27,7 +27,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
-@EnableSchemaRegistryClient
+//@EnableSchemaRegistryClient
 @EnableScheduling
 public class CountVersionApplication {
 

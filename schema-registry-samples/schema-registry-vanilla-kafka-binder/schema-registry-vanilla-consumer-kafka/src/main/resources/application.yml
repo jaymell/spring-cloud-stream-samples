@@ -1,11 +1,23 @@
 spring:
   cloud:
+    default:
+      producer:
+        useNativeEncoding: true
+      consumer:
+        useNativeEncoding: true
     azure:
       namespace: james-event-hub-poc.servicebus.windows.net
       schema-group: kafka-sr-poc
     stream:
       kafka:
         binder:
+          producer-properties:
+            key.serializer: sample.consumer.AzureKafkaAvroSerializer
+            value.serializer: sample.consumer.AzureKafkaAvroSerializer
+          consumer-properties:
+            key.deserializer: sample.consumer.AzureKafkaAvroDeserializer
+            value.deserializer: sample.consumer.AzureKafkaAvroDeserializer
+            specific.avro.reader: true
           min-partition-count: 2
           replicationFactor: 2
           brokers: james-event-hub-poc.servicebus.windows.net:9093
